@@ -160,7 +160,10 @@
   .prereg {
     height: auto;
     min-height: 45vh;
-    padding: 3rem 1.75rem 3.5rem;
+    /* Bottom padding clears the fixed social bar, which overlaps this panel
+       since it is the last section in the mobile stack. */
+    padding: 3rem 1.75rem
+      calc(3.5rem + var(--social-bar-h) + env(safe-area-inset-bottom, 0px));
   }
 }
 
