@@ -1,0 +1,32 @@
+.app {
+  height: 100%;
+  background-color: var(--cream);
+}
+
+/* Exact 50/50 vertical split, full viewport height, no scroll.
+   100dvh handles mobile browser chrome; 100vh is the fallback. */
+.app__split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100vh;
+  height: 100dvh;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Mobile: stack About on top, Pre-Register below. Height goes auto and the
+   page is allowed to scroll (see index.css) so the form is never clipped. */
+@media (max-width: 768px) {
+  .app {
+    height: auto;
+    min-height: 100%;
+  }
+
+  .app__split {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
+  }
+}

@@ -1,0 +1,73 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  padding: 1.5rem clamp(1.5rem, 4vw, 3.5rem);
+  /* Transparent by design: no bar, edge, or shadow — the navbar reads as
+     floating over whichever half sits beneath it. */
+  background: transparent;
+  pointer-events: none;
+}
+
+.navbar__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  pointer-events: auto;
+}
+
+/* pp.png is a wide wordmark lockup, so height drives the size and width stays
+   auto — a fixed square + border-radius would crop it. If you swap in a square
+   avatar, set width/height to 44px and add border-radius: 50%. */
+.navbar__logo {
+  /* The source PNG carries generous internal padding, so it needs a larger box
+     than a cropped logo would to read at the same optical size. */
+  height: 96px;
+  width: auto;
+  margin: -1.5rem 0 -1.5rem -0.75rem; /* pull the baked-in padding back in */
+  display: block;
+  flex-shrink: 0;
+}
+
+.navbar__nav {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  pointer-events: auto;
+}
+
+.navbar__link {
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  color: var(--coral);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color 0.18s ease;
+}
+
+.navbar__link:hover {
+  background-color: rgba(240, 128, 128, 0.12);
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 1.15rem 1.5rem;
+  }
+
+  .navbar__link {
+    padding: 0.35rem 0.7rem;
+    font-size: 0.9rem;
+  }
+
+  .navbar__logo {
+    height: 76px;
+    width: auto;
+    margin: -1.25rem 0 -1.25rem -0.6rem;
+  }
+}

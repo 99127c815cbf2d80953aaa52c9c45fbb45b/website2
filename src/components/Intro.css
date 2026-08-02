@@ -1,0 +1,28 @@
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--cream);
+  will-change: filter, opacity, transform;
+  /* Keeps the dissolve on the compositor for smooth 60fps */
+  transform: translateZ(0);
+}
+
+.intro__wordmark {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: clamp(4rem, 12vw, 9rem);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  display: flex;
+  user-select: none;
+}
+
+.intro__wordmark span {
+  display: inline-block;
+  will-change: transform, opacity;
+}

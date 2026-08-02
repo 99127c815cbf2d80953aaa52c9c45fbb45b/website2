@@ -1,0 +1,48 @@
+.about {
+  background-color: var(--cream);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: clamp(2rem, 6vw, 5rem);
+  padding-top: max(clamp(2rem, 6vw, 5rem), 6rem); /* clears the fixed navbar */
+  overflow: hidden;
+}
+
+.about__inner {
+  max-width: 34rem;
+}
+
+/* Coral type on cream — same colour as the right-hand panel background.
+   No text-shadow needed: coral on cream carries itself. */
+.about__heading {
+  margin: 0 0 1.25rem;
+  color: var(--coral);
+  font-weight: 800;
+  font-size: clamp(2.5rem, 5.5vw, 4rem);
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+}
+
+.about__body {
+  margin: 0 0 1rem;
+  color: var(--coral);
+  font-weight: 600;
+  font-size: clamp(1.02rem, 1.35vw, 1.22rem);
+  line-height: 1.65;
+  max-width: 30rem;
+}
+
+.about__body--muted {
+  font-weight: 600;
+  font-size: clamp(0.9rem, 1.1vw, 1rem);
+  opacity: 0.92;
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .about {
+    height: auto;
+    min-height: 55vh;
+    padding: 7rem 1.75rem 3rem;
+  }
+}

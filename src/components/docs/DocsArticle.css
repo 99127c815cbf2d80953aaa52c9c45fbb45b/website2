@@ -1,0 +1,302 @@
+/* ============================================================
+   DOCS ARTICLE — breadcrumb, prose, callouts, tables, pager.
+   ============================================================ */
+
+.docs-article {
+  max-width: 48rem;
+}
+
+/* ---------- header ---------- */
+
+.docs-article__breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 1.25rem;
+  color: var(--docs-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.docs-article__breadcrumb a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.docs-article__breadcrumb a:hover {
+  color: var(--docs-text);
+}
+
+.docs-article__breadcrumb-current {
+  color: var(--docs-text);
+  font-weight: 700;
+}
+
+.docs-article__h1 {
+  margin: 0 0 0.85rem;
+  color: var(--docs-text);
+  font-size: clamp(2.1rem, 4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+}
+
+.docs-article__lead {
+  margin: 0 0 2.5rem;
+  color: var(--docs-muted);
+  font-size: clamp(1.02rem, 1.3vw, 1.15rem);
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+/* ---------- headings ---------- */
+
+/* scroll-margin keeps a linked heading clear of the top edge of the scroll
+   pane instead of flush against it. */
+.docs-article__h2,
+.docs-article__h3 {
+  scroll-margin-top: 1.5rem;
+  color: var(--docs-text);
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.docs-article__h2 {
+  margin: 2.75rem 0 1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--docs-border-soft);
+  font-size: clamp(1.45rem, 2.2vw, 1.8rem);
+  font-weight: 800;
+}
+
+.docs-article__h3 {
+  margin: 2rem 0 0.6rem;
+  font-size: clamp(1.12rem, 1.6vw, 1.28rem);
+  font-weight: 800;
+}
+
+/* The "#" only appears on hover/focus so it never competes with the heading. */
+.docs-article__anchor {
+  margin-left: 0.45rem;
+  color: var(--docs-muted);
+  font-weight: 600;
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.16s ease;
+}
+
+.docs-article__h2:hover .docs-article__anchor,
+.docs-article__h3:hover .docs-article__anchor,
+.docs-article__anchor:focus-visible {
+  opacity: 1;
+}
+
+/* ---------- prose ---------- */
+
+.docs-article__p {
+  margin: 0 0 1.1rem;
+  color: var(--docs-text);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.72;
+}
+
+.docs-article__ul,
+.docs-article__ol {
+  margin: 0 0 1.25rem;
+  padding-left: 1.35rem;
+  color: var(--docs-text);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.7;
+}
+
+.docs-article__ul li,
+.docs-article__ol li {
+  margin-bottom: 0.55rem;
+}
+
+.docs-article__ul li::marker,
+.docs-article__ol li::marker {
+  color: var(--docs-muted);
+}
+
+.docs-article__ul strong,
+.docs-article__ol strong,
+.docs-article__p strong {
+  font-weight: 800;
+}
+
+.docs-article__inline-code {
+  padding: 0.12em 0.4em;
+  border: 1px solid var(--docs-border-soft);
+  border-radius: 0.35rem;
+  background-color: var(--docs-code-bg);
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.88em;
+}
+
+/* ---------- code blocks ---------- */
+
+.docs-article__pre {
+  margin: 0 0 1.5rem;
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--docs-border);
+  border-radius: 0.75rem;
+  background-color: var(--docs-code-bg);
+  color: var(--docs-text);
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.86rem;
+  line-height: 1.65;
+  overflow-x: auto;
+}
+
+.docs-article__pre code {
+  font: inherit;
+  white-space: pre;
+}
+
+/* ---------- callouts ---------- */
+
+/* Warning and note share the palette; the left rule's weight and the marker
+   glyph carry the difference, since adding a colour is off the table. */
+.docs-callout {
+  margin: 0 0 1.5rem;
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--docs-border-soft);
+  border-left: 3px solid var(--docs-border);
+  border-radius: 0.6rem;
+  background-color: var(--docs-panel);
+}
+
+.docs-callout--warning {
+  border-left-color: var(--coral);
+  background-color: var(--docs-hover);
+}
+
+.docs-callout__title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.4rem;
+  color: var(--docs-text);
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.docs-callout__marker {
+  display: grid;
+  place-items: center;
+  width: 1.15rem;
+  height: 1.15rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: var(--coral);
+  color: var(--cream);
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.docs-callout__body {
+  margin: 0;
+  color: var(--docs-text);
+  font-size: 0.94rem;
+  font-weight: 500;
+  line-height: 1.65;
+}
+
+/* ---------- tables ---------- */
+
+.docs-article__table-wrap {
+  margin: 0 0 1.75rem;
+  border: 1px solid var(--docs-border);
+  border-radius: 0.75rem;
+  overflow-x: auto;
+}
+
+.docs-article__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.docs-article__table th,
+.docs-article__table td {
+  padding: 0.7rem 0.95rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.docs-article__table th {
+  background-color: var(--docs-hover);
+  color: var(--docs-text);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.docs-article__table tbody tr + tr td {
+  border-top: 1px solid var(--docs-border-soft);
+}
+
+.docs-article__table td {
+  color: var(--docs-text);
+  font-weight: 500;
+}
+
+/* ---------- prev / next ---------- */
+
+.docs-article__pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 3.5rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--docs-border-soft);
+}
+
+.docs-article__pager-link {
+  display: block;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid var(--docs-border);
+  border-radius: 0.75rem;
+  text-decoration: none;
+  transition: background-color 0.18s ease, border-color 0.18s ease;
+}
+
+.docs-article__pager-link:hover {
+  background-color: var(--docs-hover);
+  border-color: var(--coral);
+}
+
+.docs-article__pager-link--next {
+  text-align: right;
+}
+
+.docs-article__pager-label {
+  display: block;
+  color: var(--docs-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.docs-article__pager-title {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--docs-text);
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+@media (max-width: 600px) {
+  .docs-article__pager {
+    grid-template-columns: 1fr;
+  }
+
+  .docs-article__pager-link--next {
+    text-align: left;
+  }
+}

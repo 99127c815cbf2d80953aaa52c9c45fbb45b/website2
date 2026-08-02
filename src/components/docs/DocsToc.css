@@ -1,0 +1,57 @@
+/* ============================================================
+   ON THIS PAGE — right rail. Hidden under 1180px (DocsLayout.css).
+   ============================================================ */
+
+.docs-toc {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: clamp(2rem, 4vw, 3.25rem) 1.25rem 4rem 0.5rem;
+  border-left: 1px solid var(--docs-border-soft);
+}
+
+.docs-toc__title {
+  margin: 0 0 0.75rem 0.85rem;
+  color: var(--docs-text);
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.docs-toc__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-left: 1px solid var(--docs-border-soft);
+}
+
+.docs-toc__link {
+  display: block;
+  /* The negative left margin pulls the active bar on top of the list's spine,
+     so the highlight replaces that segment instead of sitting beside it. */
+  margin-left: -1px;
+  padding: 0.32rem 0.75rem;
+  border-left: 2px solid transparent;
+  color: var(--docs-muted);
+  font-size: 0.86rem;
+  font-weight: 600;
+  line-height: 1.45;
+  text-decoration: none;
+  transition: color 0.16s ease, border-color 0.16s ease;
+}
+
+.docs-toc__link--h3 {
+  padding-left: 1.5rem;
+  font-size: 0.82rem;
+}
+
+.docs-toc__link:hover {
+  color: var(--docs-text);
+}
+
+.docs-toc__link--active {
+  border-left-color: var(--coral);
+  color: var(--docs-text);
+  font-weight: 800;
+}

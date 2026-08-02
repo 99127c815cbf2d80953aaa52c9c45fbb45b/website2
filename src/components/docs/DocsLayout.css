@@ -1,0 +1,245 @@
+/* ============================================================
+   DOCS SHELL
+
+   Colour rule: no new hues. Every surface, border and muted tone is
+   the brand coral at a lower alpha over the brand cream, so the docs
+   read as the same product as the landing page. Change --cream or
+   --coral in index.css and this whole section re-themes with it.
+   ============================================================ */
+
+.docs {
+  /* coral = #f08080 -> rgb(240 128 128); every token below is that,
+     thinned out. Cream stays the page. */
+  --docs-bg: var(--cream);
+  --docs-panel: rgba(240, 128, 128, 0.045);
+  --docs-border: rgba(240, 128, 128, 0.2);
+  --docs-border-soft: rgba(240, 128, 128, 0.12);
+  --docs-text: var(--coral);
+  --docs-muted: rgba(240, 128, 128, 0.68);
+  --docs-hover: rgba(240, 128, 128, 0.09);
+  --docs-active: rgba(240, 128, 128, 0.15);
+  --docs-code-bg: rgba(240, 128, 128, 0.08);
+
+  --docs-topbar-h: 4.5rem;
+  --docs-sidebar-w: 17.5rem;
+  --docs-toc-w: 15rem;
+
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--docs-bg);
+  color: var(--docs-text);
+}
+
+/* ---------- topbar ---------- */
+
+.docs__topbar {
+  flex: 0 0 auto;
+  height: var(--docs-topbar-h);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 clamp(1rem, 2.5vw, 1.75rem);
+  border-bottom: 1px solid var(--docs-border-soft);
+  background-color: var(--docs-bg);
+}
+
+.docs__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: var(--docs-text);
+}
+
+/* pp.png carries generous internal padding, so it needs a taller box than a
+   cropped logo would and the margins pull that padding back in. */
+.docs__brand-logo {
+  height: 4.25rem;
+  width: auto;
+  display: block;
+  margin: 0 -0.5rem 0 -0.75rem;
+  flex-shrink: 0;
+}
+
+.docs__brand-label {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  opacity: 0.85;
+}
+
+.docs__topbar-links {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.docs__topbar-link {
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--docs-border);
+  border-radius: 999px;
+  color: var(--docs-text);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color 0.18s ease, border-color 0.18s ease;
+}
+
+.docs__topbar-link:hover {
+  background-color: var(--docs-hover);
+  border-color: var(--coral);
+}
+
+/* Hamburger: mobile only, revealed in the media query below. */
+.docs__menu-toggle {
+  display: none;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 1px solid var(--docs-border);
+  border-radius: 0.6rem;
+  background: transparent;
+  color: var(--docs-text);
+  cursor: pointer;
+  place-items: center;
+}
+
+.docs__menu-icon,
+.docs__menu-icon::before,
+.docs__menu-icon::after {
+  display: block;
+  width: 1rem;
+  height: 2px;
+  border-radius: 2px;
+  background-color: currentColor;
+}
+
+.docs__menu-icon {
+  position: relative;
+}
+
+.docs__menu-icon::before,
+.docs__menu-icon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+
+.docs__menu-icon::before {
+  top: -5px;
+}
+
+.docs__menu-icon::after {
+  top: 5px;
+}
+
+/* ---------- three-column body ---------- */
+
+.docs__body {
+  flex: 1 1 auto;
+  min-height: 0; /* lets the children scroll instead of stretching the shell */
+  display: grid;
+  grid-template-columns: var(--docs-sidebar-w) minmax(0, 1fr) var(--docs-toc-w);
+}
+
+/* The only scroll container on the page. Sidebar and TOC scroll separately. */
+.docs__main {
+  min-width: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: clamp(2rem, 4vw, 3.25rem) clamp(1.5rem, 4vw, 4rem) 6rem;
+}
+
+.docs__backdrop {
+  display: none;
+}
+
+.docs__missing {
+  max-width: 40rem;
+}
+
+.docs__missing h1 {
+  margin: 0 0 0.75rem;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.docs__missing code {
+  padding: 0.1em 0.4em;
+  border-radius: 0.35rem;
+  background-color: var(--docs-code-bg);
+  font-size: 0.9em;
+}
+
+/* Shared link style, used by the article body and the 404 panel. */
+.docs-link {
+  color: var(--docs-text);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: var(--docs-border);
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color 0.18s ease;
+}
+
+.docs-link:hover {
+  text-decoration-color: var(--coral);
+}
+
+/* ---------- responsive ---------- */
+
+/* Tablet: the TOC is the first thing to go — the article needs the width more. */
+@media (max-width: 1180px) {
+  .docs__body {
+    grid-template-columns: var(--docs-sidebar-w) minmax(0, 1fr);
+  }
+
+  .docs-toc {
+    display: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .docs {
+    --docs-topbar-h: 4rem;
+  }
+
+  .docs__menu-toggle {
+    display: grid;
+  }
+
+  .docs__brand-logo {
+    height: 3.5rem;
+  }
+
+  .docs__body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .docs__main {
+    padding: 1.75rem 1.25rem 5rem;
+  }
+
+  .docs__backdrop {
+    display: block;
+    position: fixed;
+    inset: var(--docs-topbar-h) 0 0;
+    z-index: 30;
+    border: 0;
+    padding: 0;
+    background-color: rgba(240, 128, 128, 0.22);
+    cursor: pointer;
+  }
+}
+
+/* Docs run their own scroll panes, so the document itself must not scroll.
+   index.css pins <body> for the landing page and unpins it on mobile — this
+   class out-specifies that media query and keeps it pinned here too. */
+html.is-docs,
+body.is-docs {
+  height: 100%;
+  overflow: hidden;
+}

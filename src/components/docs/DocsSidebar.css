@@ -1,0 +1,208 @@
+/* ============================================================
+   DOCS SIDEBAR — search + collapsible groups.
+   Slides in as a drawer under 860px (see the media query at the end).
+   ============================================================ */
+
+.docs-sidebar {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1.5rem 1rem 4rem;
+  border-right: 1px solid var(--docs-border-soft);
+  background-color: var(--docs-panel);
+}
+
+/* ---------- search ---------- */
+
+.docs-sidebar__search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.docs-sidebar__search-icon {
+  position: absolute;
+  left: 0.7rem;
+  width: 1.05rem;
+  height: 1.05rem;
+  color: var(--docs-muted);
+  pointer-events: none;
+}
+
+.docs-sidebar__search-input {
+  width: 100%;
+  padding: 0.6rem 3.1rem 0.6rem 2.4rem;
+  border: 1px solid var(--docs-border);
+  border-radius: 0.65rem;
+  background-color: var(--white);
+  color: var(--docs-text);
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: 600;
+  outline: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.docs-sidebar__search-input::placeholder {
+  color: var(--docs-muted);
+  font-weight: 600;
+}
+
+.docs-sidebar__search-input:focus-visible {
+  border-color: var(--coral);
+  box-shadow: 0 0 0 3px var(--docs-hover);
+}
+
+/* Kill the WebKit "x" — the Esc key and clearing by hand cover it, and the
+   native control does not take our colours. */
+.docs-sidebar__search-input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.docs-sidebar__kbd {
+  position: absolute;
+  right: 0.55rem;
+  padding: 0.15rem 0.35rem;
+  border: 1px solid var(--docs-border);
+  border-radius: 0.35rem;
+  color: var(--docs-muted);
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+/* ---------- groups ---------- */
+
+.docs-sidebar__group + .docs-sidebar__group {
+  margin-top: 1.15rem;
+}
+
+.docs-sidebar__group-title {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+  padding: 0.35rem 0.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: var(--docs-text);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  text-align: left;
+  cursor: pointer;
+}
+
+.docs-sidebar__group-title:hover {
+  background-color: var(--docs-hover);
+}
+
+.docs-sidebar__chevron {
+  width: 0.85rem;
+  height: 0.85rem;
+  flex-shrink: 0;
+  transition: transform 0.18s ease;
+}
+
+.docs-sidebar__chevron--collapsed {
+  transform: rotate(-90deg);
+}
+
+.docs-sidebar__list {
+  /* The rule doubles as the tree spine, so the indent and the border line up. */
+  margin: 0.2rem 0 0;
+  padding: 0 0 0 0.75rem;
+  margin-left: 0.9rem;
+  border-left: 1px solid var(--docs-border-soft);
+  list-style: none;
+}
+
+.docs-sidebar__link {
+  display: block;
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.5rem;
+  color: var(--docs-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.16s ease, background-color 0.16s ease;
+}
+
+.docs-sidebar__link:hover {
+  color: var(--docs-text);
+  background-color: var(--docs-hover);
+}
+
+.docs-sidebar__link--active {
+  color: var(--docs-text);
+  background-color: var(--docs-active);
+  font-weight: 800;
+}
+
+/* ---------- search results ---------- */
+
+.docs-sidebar__results {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.docs-sidebar__result {
+  display: block;
+  padding: 0.5rem 0.6rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: background-color 0.16s ease;
+}
+
+.docs-sidebar__result:hover,
+.docs-sidebar__result--active {
+  background-color: var(--docs-hover);
+}
+
+.docs-sidebar__result-title {
+  display: block;
+  color: var(--docs-text);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.docs-sidebar__result-group {
+  display: block;
+  color: var(--docs-muted);
+  font-size: 0.76rem;
+  font-weight: 600;
+}
+
+.docs-sidebar__empty {
+  margin: 0;
+  padding: 0.5rem 0.6rem;
+  color: var(--docs-muted);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+/* ---------- mobile drawer ---------- */
+
+@media (max-width: 860px) {
+  .docs-sidebar {
+    position: fixed;
+    top: var(--docs-topbar-h);
+    bottom: 0;
+    left: 0;
+    z-index: 31;
+    width: min(20rem, 84vw);
+    background-color: var(--cream);
+    border-right: 1px solid var(--docs-border);
+    transform: translateX(-102%);
+    transition: transform 0.24s ease;
+  }
+
+  .docs-sidebar--open {
+    transform: translateX(0);
+  }
+}
