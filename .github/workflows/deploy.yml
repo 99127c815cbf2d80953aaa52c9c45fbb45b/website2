@@ -26,6 +26,13 @@ jobs:
           node-version: 22
           cache: npm
 
+      # Node 22 npm 10 ile geliyor, lokalde npm 11 var. İkisi package-lock'a
+      # farklı girişler yazıyor (@emnapi/* gibi opsiyonel wasm bağımlılıkları)
+      # ve npm 10 kendi beklediğini bulamayınca `npm ci` "Missing ... from lock
+      # file" ile patlıyor. CI'ı lokale sabitliyoruz: lock nerede üretiliyorsa
+      # npm sürümü orayla aynı olmalı.
+      - run: npm install -g npm@11
+
       - run: npm ci
 
       # Firebase web config. Bunlar gizli değil (build sonunda JS bundle'ına
