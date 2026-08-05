@@ -47,6 +47,13 @@ export async function savePreRegistration(rawEmail) {
   const email = normalizeEmail(rawEmail);
 
   if (!isFirebaseConfigured()) {
+    // In production a missing config means the build did not receive the
+    // env secrets, and every signup is being dropped. Fail loudly: showing
+    // the visitor a success screen while binning their email is worse than
+    // showing an error.
+    if (import.meta.env.PROD) {
+      throw new Error("Firebase config missing from the build (VITE_FIREBASE_* env vars).");
+    }
     // Local dev without a .env.local, so the form still works end to end.
     console.warn("[APHRO.] Firebase not configured, pre-register not saved:", email);
     return { saved: false, reason: "not-configured" };
@@ -73,6 +80,9 @@ export async function savePreRegistration(rawEmail) {
     // Rules reject a write to an existing document, which means this email
     // is already on the list. Nothing went wrong from the visitor's side.
     if (error?.code === "permission-denied") {
+      // Logged because this branch also catches a genuinely broken rules
+      // deploy, which would otherwise look like a stream of happy duplicates.
+      console.info("[APHRO.] pre-register rejected by rules (already listed?):", email);
       return { saved: true, duplicate: true };
     }
     throw error;
