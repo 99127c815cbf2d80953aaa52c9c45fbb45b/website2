@@ -1,0 +1,61 @@
+rules_version = '2';
+
+/* ============================================================
+   APHRO. — Firestore security rules
+
+   The Firebase web config in the JS bundle is public and identifies
+   the project; it authorises nothing. THIS FILE is the security
+   boundary. Paste it into Firebase Console > Firestore Database >
+   Rules, then Publish.
+
+   Shape: the pre-registration list is append-only for the public.
+   Anyone may add their own email once. Nobody may read the list,
+   change an entry, or delete one. You read it in the console, or
+   with the Admin SDK / a service account, both of which bypass rules.
+   ============================================================ */
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /* No backslashes on purpose: rules strings escape them, and a
+       mis-escaped pattern silently fails open on the length check
+       alone. The client already does the strict check; this is the
+       server-side sanity gate. */
+    function isEmail(value) {
+      return value is string
+        && value.size() >= 5
+        && value.size() <= 254
+        && value.matches('^[^@ ]+@[^@ ]+[.][^@ ]{2,}$');
+    }
+
+    match /preregistrations/{docId} {
+
+      // The list is write-only from the web. Read it in the console.
+      allow read, update, delete: if false;
+
+      allow create: if
+        // Exactly these fields, no extras smuggled in.
+        request.resource.data.keys().hasOnly(['email', 'source', 'createdAt'])
+        && request.resource.data.keys().hasAll(['email', 'source', 'createdAt'])
+
+        && isEmail(request.resource.data.email)
+        // Document ID is the email, so one address can only ever hold one
+        // slot. Without this, a script could write unlimited documents.
+        && request.resource.data.email == docId
+        // Forces the normalised form, so Foo@x.com cannot take a second slot.
+        && request.resource.data.email == request.resource.data.email.lower()
+
+        // serverTimestamp() resolves to request.time. A client cannot forge
+        // this, so entries cannot be backdated.
+        && request.resource.data.createdAt == request.time
+
+        && request.resource.data.source is string
+        && request.resource.data.source.size() <= 32;
+    }
+
+    // Everything else in the project is closed.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

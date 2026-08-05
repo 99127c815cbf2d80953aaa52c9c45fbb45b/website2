@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Firebase service account keys and exported email lists.
+# The key grants full project access and ignores security rules; the CSVs
+# hold personal data. Neither belongs in the repo.
+*serviceAccount*.json
+*firebase-adminsdk*.json
+preregistrations-*.csv

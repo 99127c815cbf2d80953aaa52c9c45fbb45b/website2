@@ -1,10 +1,11 @@
 import { useState } from "react";
+import { savePreRegistration } from "../lib/preregister";
 import "./PreRegisterPanel.css";
 
 /* ------------------------------------------------------------------
    PRE-REGISTER — right half (bottom on mobile). Coral panel, edge-to-edge.
-   Submit is mocked: it logs and shows a success state. Swap the body of
-   handleSubmit for a real API call when a backend exists.
+   Submit writes one Firestore document per email; see lib/preregister.js
+   for the storage details and firestore.rules for what the server allows.
    EDIT COPY: heading, subheading, button label, success message below.
 ------------------------------------------------------------------ */
 
@@ -15,9 +16,12 @@ export default function PreRegisterPanel() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
+    if (submitting) return; // double-click guard
+
     const value = email.trim();
 
     if (!value) {
@@ -29,10 +33,19 @@ export default function PreRegisterPanel() {
       return;
     }
 
-    // MOCK: replace with a real request when the backend is ready.
-    console.log("[APHRO.] pre-register:", value);
     setError("");
-    setSubmitted(true);
+    setSubmitting(true);
+    try {
+      await savePreRegistration(value);
+      setSubmitted(true);
+    } catch (err) {
+      // Network failure or a rules rejection we did not expect. Keep the form
+      // filled in so they can retry without retyping.
+      console.error("[APHRO.] pre-register failed:", err);
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   function handleChange(event) {
@@ -71,11 +84,12 @@ export default function PreRegisterPanel() {
                   value={email}
                   onChange={handleChange}
                   autoComplete="email"
+                  disabled={submitting}
                   aria-invalid={Boolean(error)}
                   aria-describedby={error ? "prereg-error" : undefined}
                 />
-                <button className="prereg__button" type="submit">
-                  Pre-Register
+                <button className="prereg__button" type="submit" disabled={submitting}>
+                  {submitting ? "Sending…" : "Pre-Register"}
                 </button>
               </div>
               {error && (
