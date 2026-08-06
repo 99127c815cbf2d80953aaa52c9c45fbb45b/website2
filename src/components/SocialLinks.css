@@ -1,16 +1,22 @@
-/* Desktop: square cream tile with a coral X mark, pinned to the bottom-right
-   corner of the viewport, which is the bottom-right of the coral panel.
-   Mobile: the same link stretches into a full-width bottom bar (see the media
-   query at the end).
+/* Desktop: a row of square cream tiles with coral marks, pinned to the
+   bottom-right corner of the viewport, which is the bottom-right of the
+   coral panel. Mobile: the same row stretches into a full-width bottom
+   bar (see the media query at the end).
 
-   z-index sits above the navbar (20) but below the intro (100), so the intro
-   still covers it on first load. */
-.social-button {
+   z-index sits above the navbar (20) but below the intro (100), so the
+   intro still covers it on first load. */
+.social {
   position: fixed;
   right: clamp(1.5rem, 4vw, 3.5rem);
   bottom: clamp(1.5rem, 4vw, 3rem);
   z-index: 25;
 
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.social__link {
   display: grid;
   place-items: center;
   width: 3rem;
@@ -25,67 +31,83 @@
   transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
-.social-button:hover {
+.social__link:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(240, 128, 128, 0.28);
 }
 
-.social-button:focus-visible {
+.social__link:focus-visible {
   outline: 2px solid var(--coral);
   outline-offset: 3px;
 }
 
-.social-button__icon {
+.social__icon {
   width: 1.25rem;
   height: 1.25rem;
   display: block;
   flex-shrink: 0;
 }
 
-/* Bar-only copy: the square has no room for it. */
-.social-button__label {
+/* Bar-only copy: the squares have no room for it. */
+.social__label {
   display: none;
 }
 
 /* ---------- mobile: bottom bar ---------- */
 
 @media (max-width: 768px) {
-  .social-button {
+  .social {
     right: 0;
     left: 0;
     bottom: 0;
-    width: auto;
-    /* env() keeps the tap target clear of the iPhone home indicator; the
+    gap: 0;
+
+    /* env() keeps the tap targets clear of the iPhone home indicator; the
        fallback is 0 on everything else. */
     height: calc(var(--social-bar-h) + env(safe-area-inset-bottom, 0px));
     padding-bottom: env(safe-area-inset-bottom, 0px);
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.55rem;
-
-    border-radius: 0;
-    border: 0;
+    background-color: var(--cream);
     border-top: 1px solid rgba(240, 128, 128, 0.22);
   }
 
+  .social__link {
+    /* Equal shares of the bar, so both are easy to hit whatever the width. */
+    flex: 1 1 0;
+    width: auto;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    border: 0;
+    border-radius: 0;
+    background-color: transparent;
+  }
+
+  /* Divider between tiles, drawn only between them, never on the outer edge. */
+  .social__link + .social__link {
+    border-left: 1px solid rgba(240, 128, 128, 0.22);
+  }
+
   /* A bar that lifts on hover looks broken, and there is no hover on touch. */
-  .social-button:hover {
+  .social__link:hover {
     transform: none;
     box-shadow: none;
   }
 
-  .social-button:focus-visible {
+  .social__link:focus-visible {
     outline-offset: -3px;
   }
 
-  .social-button__icon {
+  .social__icon {
     width: 1.05rem;
     height: 1.05rem;
   }
 
-  .social-button__label {
+  .social__label {
     display: inline;
     font-size: 0.92rem;
     font-weight: 700;

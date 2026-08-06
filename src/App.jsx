@@ -4,7 +4,7 @@ import Intro from "./components/Intro";
 import Navbar from "./components/Navbar";
 import AboutSection from "./components/AboutSection";
 import PreRegisterPanel from "./components/PreRegisterPanel";
-import SocialButton from "./components/SocialButton";
+import SocialLinks from "./components/SocialLinks";
 import DocsLayout from "./components/docs/DocsLayout";
 import useRoute from "./hooks/useRoute";
 import "./App.css";
@@ -40,7 +40,7 @@ export default function App() {
           <AboutSection />
           <PreRegisterPanel />
         </main>
-        <SocialButton />
+        <SocialLinks />
       </motion.div>
     </>
   );
